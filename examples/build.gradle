@@ -1,0 +1,5 @@
+group = "org.sam.mines.examples"
+version = "1.0"
+
+apply from: "${rootDir}/gradle/backend-java.gradle"
+
