@@ -1,6 +1,5 @@
 package org.sam.mines.address.service;
 
-
 import org.sam.mines.address.model.Target;
 
 import java.util.List;

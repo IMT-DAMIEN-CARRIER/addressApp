@@ -14,5 +14,7 @@ public interface TownService {
 
     Town save(Town town);
 
+    void isTownValid(Town town);
+
     void delete(UUID id);
 }

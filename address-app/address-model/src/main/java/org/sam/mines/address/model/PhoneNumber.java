@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 @Table
 public class PhoneNumber {
     private UUID id;
-    private int[] phoneNumber = new int[10];
+    private String phoneNumber;
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -34,30 +34,25 @@ public class PhoneNumber {
     @Column(name = "phoneNumber")
     @Min(1)
     @NotNull
-    public int[] getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int[] phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
     
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof PhoneNumber) {
-            PhoneNumber phoneObject = (PhoneNumber) obj;
-
-            int[] phoneNumber = phoneObject.getPhoneNumber();
-            for (int i = 0; i < phoneNumber.length; ++i) {
-                if (phoneNumber[i] != this.phoneNumber[i]) {
-                    return false;
-                }
-            }
-        } else {
+        if (!(obj instanceof PhoneNumber)) {
             return false;
         }
-        return true;
+
+        PhoneNumber phoneObject = (PhoneNumber) obj;
+        String phoneNumber = phoneObject.getPhoneNumber();
+
+        return this.phoneNumber.equals(phoneNumber);
     }
 
     @Override

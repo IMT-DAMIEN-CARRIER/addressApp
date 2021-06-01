@@ -4,6 +4,7 @@ import org.sam.mines.address.model.Address;
 import org.sam.mines.address.model.Town;
 import org.sam.mines.address.persistence.AddressRepository;
 import org.sam.mines.address.service.AddressService;
+import org.sam.mines.address.service.TownService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -13,10 +14,12 @@ import java.util.UUID;
 public class AddressServiceImpl implements AddressService
 {
     private final AddressRepository addressRepository;
+    private final TownService townService;
 
     @Autowired
-    public AddressServiceImpl(AddressRepository addressRepository) {
+    public AddressServiceImpl(AddressRepository addressRepository, TownService townService) {
         this.addressRepository = addressRepository;
+        this.townService = townService;
     }
 
     @Override
@@ -30,29 +33,18 @@ public class AddressServiceImpl implements AddressService
     }
 
     @Override
-    public Address save(Address address) {
+    public Address save(Address address) throws IllegalArgumentException {
+        this.townService.isTownValid(address.getTown());
+
         if (address.getNumber() == 0) {
             throw new IllegalArgumentException("Number is required");
         } else if (address.getStreet().isEmpty()) {
-            throw new IllegalArgumentException("No addresses referenced for ");
-        } else if (!isTownValid(address.getTown())) {
-
-        } else if () {
-
+            throw new IllegalArgumentException("No addresses referenced for");
+        } else if (address.getTargets().isEmpty()) {
+            throw new IllegalArgumentException("Targets are required");
         }
 
         return this.addressRepository.save(address);
-    }
-
-    private boolean isTownValid(Town town) throws IllegalArgumentException {
-        if (town.getPostCode() == 0) {
-            throw new IllegalArgumentException("Post code is required for each");
-        }
-
-        if (town.getName().isEmpty()) {
-            throw new IllegalArgumentException("Town name must be setted");
-        }
-        return true;
     }
 
     @Override

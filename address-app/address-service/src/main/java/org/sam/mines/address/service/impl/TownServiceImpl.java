@@ -32,11 +32,28 @@ public class TownServiceImpl implements TownService {
 
     @Override
     public Town save(Town town) {
+        isTownValid(town);
+
+        return townRepository.save(town);
+    }
+
+    public void isTownValid(Town town) throws IllegalArgumentException
+    {
         if (town.getName() == null || town.getName().isBlank()){
             throw new IllegalArgumentException("Name is required");
         }
 
-        return townRepository.save(town);
+        if (town.getPostCode() < 1000 || town.getPostCode() > 99999) {
+            throw new IllegalArgumentException("PostCode is invalid");
+        }
+
+        if (town.getAddresses().isEmpty()) {
+            throw new IllegalArgumentException("Adresses are needed");
+        }
+
+        if (town.getResidents().isEmpty()) {
+            throw new IllegalArgumentException("Residents are needed");
+        }
     }
 
     @Override
