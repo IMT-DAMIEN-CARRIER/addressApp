@@ -12,8 +12,7 @@ import org.sam.mines.address.service.TownService;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -64,5 +63,15 @@ class TownServiceImplTest {
 
         // THEN
         assertEquals(2, all.size());
+    }
+
+    @Test
+    void shoudBeValid() {
+        // GIVEN
+        Town town = Town.TownBuilder.aTown().build();
+
+        // WHEN
+        // THEN
+        assertTrue(this.townService.isTownValid(town));
     }
 }

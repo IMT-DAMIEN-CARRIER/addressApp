@@ -134,6 +134,7 @@ public class Town {
             town.setPostCode(postCode);
             town.setName(name);
             town.setAddresses(addresses);
+            town.setResidents(residents);
             return town;
         }
 

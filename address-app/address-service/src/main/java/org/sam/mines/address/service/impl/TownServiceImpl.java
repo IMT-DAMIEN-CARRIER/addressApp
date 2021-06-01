@@ -37,7 +37,7 @@ public class TownServiceImpl implements TownService {
         return townRepository.save(town);
     }
 
-    public void isTownValid(Town town) throws IllegalArgumentException
+    public boolean isTownValid(Town town) throws IllegalArgumentException
     {
         if (town.getName() == null || town.getName().isBlank()){
             throw new IllegalArgumentException("Name is required");
@@ -54,6 +54,8 @@ public class TownServiceImpl implements TownService {
         if (town.getResidents().isEmpty()) {
             throw new IllegalArgumentException("Residents are needed");
         }
+
+        return true;
     }
 
     @Override
