@@ -43,4 +43,25 @@ public class PhoneNumber {
     }
 
     
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof PhoneNumber) {
+            PhoneNumber phoneObject = (PhoneNumber) obj;
+
+            int[] phoneNumber = phoneObject.getPhoneNumber();
+            for (int i = 0; i < phoneNumber.length; ++i) {
+                if (phoneNumber[i] != this.phoneNumber[i]) {
+                    return false;
+                }
+            }
+        } else {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.phoneNumber.hashCode();
+    }
 }
