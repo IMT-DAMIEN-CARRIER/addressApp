@@ -17,6 +17,7 @@ public class Town {
     private int postCode;
     private String name;
     private Set<Address> addresses;
+    private Set<Target> residents;
 
     public void setId(UUID id) {
         this.id = id;
@@ -60,13 +61,23 @@ public class Town {
         this.addresses = addresses;
     }
 
+    @OneToMany(mappedBy = "residents")
+    public Set<Target> getResidents() {
+        return this.residents;
+    }
+
+    public void setResidents(Set<Target> residents) {
+        this.residents= residents;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Town) {
             Town townObject = (Town) obj;
 
             return this.postCode == townObject.postCode &&
-                   this.name == townObject.name && this.addresses.equals(townObject.addresses);
+                   this.name == townObject.name && this.addresses.equals(townObject.addresses) &&
+                   this.residents.equals(townObject.residents);
         }
         return false;
     }
@@ -74,7 +85,7 @@ public class Town {
     @Override
     public int hashCode() {
         return this.postCode + this.name.hashCode() +
-               this.addresses.hashCode();
+               this.addresses.hashCode() + this.residents.hashCode();
     }
 
 
@@ -83,6 +94,7 @@ public class Town {
         private int postCode;
         private String name;
         private Set<Address> addresses;
+        private Set<Target> residents;
 
         private TownBuilder() {
         }
@@ -111,6 +123,11 @@ public class Town {
             return this;
         }
 
+        public TownBuilder withResidents(Set<Target> residents) {
+            this.residents = residents;
+            return this;
+        }
+
         public Town build() {
             Town town = new Town();
             town.setId(id);
@@ -118,6 +135,24 @@ public class Town {
             town.setName(name);
             town.setAddresses(addresses);
             return town;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof TownBuilder) {
+                TownBuilder townObject = (TownBuilder) obj;
+    
+                return this.postCode == townObject.postCode &&
+                       this.name == townObject.name && this.addresses.equals(townObject.addresses) &&
+                       this.residents.equals(townObject.residents);
+            }
+            return false;
+        }
+    
+        @Override
+        public int hashCode() {
+            return this.postCode + this.name.hashCode() +
+                   this.addresses.hashCode() + this.residents.hashCode();
         }
     }
 }
