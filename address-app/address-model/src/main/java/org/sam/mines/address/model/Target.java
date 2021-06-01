@@ -13,6 +13,7 @@ public class Target {
     private String firstname;
     private String name;
     private Set<Address> addresses;
+    private PhoneNumber phoneNumber;
 
     public void setId(UUID id) {
         this.id = id;
@@ -52,5 +53,33 @@ public class Target {
 
     public void setAddresses(Set<Address> addresses) {
         this.addresses = addresses;
+    }
+
+    @OneToOne(mappedBy = "phoneNumber")
+    public PhoneNumber getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(PhoneNumber phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Target) {
+            Target targetObject = (Target) obj;
+
+            return this.id.equals(targetObject.id) && this.firstname == targetObject.firstname &&
+                   this.name == targetObject.name && this.addresses.equals(targetObject.addresses) &&
+                   this.phoneNumber.equals(phoneNumber);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.firstname.hashCode() + this.phoneNumber.hashCode() +
+               this.name.hashCode() + this.addresses.hashCode() +
+               this.phoneNumber.hashCode();
     }
 }

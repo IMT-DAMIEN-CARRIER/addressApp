@@ -60,6 +60,23 @@ public class Town {
         this.addresses = addresses;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Town) {
+            Town townObject = (Town) obj;
+
+            return this.postCode == townObject.postCode &&
+                   this.name == townObject.name && this.addresses.equals(townObject.addresses);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.postCode + this.name.hashCode() +
+               this.addresses.hashCode();
+    }
+
 
     public static final class TownBuilder {
         private UUID id;

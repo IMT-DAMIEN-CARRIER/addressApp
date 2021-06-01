@@ -64,4 +64,22 @@ public class Address {
     public void setTargets(Set<Target> targets) {
         this.targets = targets;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Address) {
+            Address addressObject = (Address) obj;
+
+            return this.id.equals(addressObject.id) && this.number == addressObject.number &&
+                   this.street == addressObject.street && this.town.equals(addressObject.town) &&
+                   this.targets.equals(addressObject.targets);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.number + this.street.hashCode() +
+               this.town.hashCode() + this.targets.hashCode();
+    }
 }
