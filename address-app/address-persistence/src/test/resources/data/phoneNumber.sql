@@ -1,1 +1,2 @@
 insert into phonenumber(uuid, phoneNumber) VALUES ('fb74d086-5a4a-11e7-907b-a6006ad3dba3', '0677777777');
+insert into phonenumber(uuid, phoneNumber) VALUES ('fb74d086-5a4a-11e7-907b-a6006ad3dba4', '0677777778');
