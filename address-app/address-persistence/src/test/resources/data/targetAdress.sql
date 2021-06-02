@@ -1,0 +1,1 @@
+insert into targetAddress(target_uuid, address_uuid) VALUES ('fb74d086-5a4a-11e7-907b-a6006ad3dba5', 'fb74d086-5a4a-11e7-907b-a6006ad3dba1')
