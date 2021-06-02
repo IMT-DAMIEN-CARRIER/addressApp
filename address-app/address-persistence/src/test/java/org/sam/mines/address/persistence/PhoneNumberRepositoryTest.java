@@ -1,9 +1,10 @@
-package org.sam.mines.address.persistence.config;
+package org.sam.mines.address.persistence;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.sam.mines.address.model.PhoneNumber;
 import org.sam.mines.address.persistence.PhoneNumberRepository;
+import org.sam.mines.address.persistence.config.PersistenceTestConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -23,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 @ContextConfiguration(classes = {PersistenceTestConfig.class})
 @Sql(scripts = {"/data/clear.sql", "/data/phoneNumber.sql"})
 public class PhoneNumberRepositoryTest {
+    
     @Autowired
     private PhoneNumberRepository phoneNumberRepository;
 
