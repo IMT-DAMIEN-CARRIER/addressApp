@@ -130,3 +130,27 @@ components:
           additionalProperties: false
           items:
             type: string
+    Address:
+      required:
+        - number
+        - street
+        - town
+        - targets
+      properties:
+        number:
+          type: integer
+        street:
+          type: string
+        town:
+          type: object
+        targets:
+          type: array
+          additionalProperties: false
+          items:
+            type: object
+    PhoneNumber:
+      required:
+        - phoneNumber
+      properties:
+        phoneNumber:
+          type: string
