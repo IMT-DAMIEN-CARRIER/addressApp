@@ -8,7 +8,6 @@ import org.hibernate.type.descriptor.java.UUIDTypeDescriptor;
 import org.hibernate.type.descriptor.sql.VarcharTypeDescriptor;
 
 import java.sql.Types;
-import java.util.UUID;
 
 public class CustomHsqlDialect extends HSQLDialect {
 

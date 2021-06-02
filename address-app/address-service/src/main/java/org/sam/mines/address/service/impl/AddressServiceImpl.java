@@ -1,7 +1,6 @@
 package org.sam.mines.address.service.impl;
 
 import org.sam.mines.address.model.Address;
-import org.sam.mines.address.model.Town;
 import org.sam.mines.address.persistence.AddressRepository;
 import org.sam.mines.address.service.AddressService;
 import org.sam.mines.address.service.TownService;
