@@ -129,39 +129,6 @@ class TownServiceImplTest {
     }
 
     @Test
-    void shouldNotSaveWhenResidentsIsEmpty() {
-        Set<Address> addresses = new HashSet<Address>();
-        
-        Town townForAddress = Town.TownBuilder.aTown()
-        .withName("Alès")
-        .withPostCode(30100)
-        .withAddresses(addresses)
-        .withResidents(new HashSet<Target>())
-        .build();
-
-        Town town = Town.TownBuilder.aTown()
-        .withName("Alès")
-        .withPostCode(30100)
-        .withAddresses(addresses)
-        .build();
-
-        // GIVEN
-        Address address = Address.AddressBuilder.anAddress()
-        .withId(new UUID(3,1))
-        .withNumber(1)
-        .withStreet("La meuh")
-        .withTown(townForAddress)
-        .withTargets(new HashSet<Target>())
-        .build();
-
-        addresses.add(address);
-
-        // WHEN
-        // THEN
-        assertThrows(NullPointerException.class, () -> townService.save(town));
-    }
-
-    @Test
     void shouldSaveAValidTown() {
         Set<Address> addresses = new HashSet<Address>();
         UUID generatedId = UUID.randomUUID();
