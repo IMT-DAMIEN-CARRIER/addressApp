@@ -71,7 +71,7 @@ public class Address {
             Address addressObject = (Address) obj;
 
             return this.id.equals(addressObject.id) && this.number == addressObject.number &&
-                   this.street == addressObject.street && this.town.equals(addressObject.town) &&
+                   this.street.equals(addressObject.street) && this.town.equals(addressObject.town) &&
                    this.targets.equals(addressObject.targets);
         }
         return false;

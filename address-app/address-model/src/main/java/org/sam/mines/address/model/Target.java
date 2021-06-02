@@ -55,7 +55,8 @@ public class Target {
         this.addresses = addresses;
     }
 
-    @OneToOne(mappedBy = "phoneNumber")
+    @OneToOne()
+    @JoinColumn(name = "id", referencedColumnName = "uuid")
     public PhoneNumber getPhoneNumber() {
         return phoneNumber;
     }

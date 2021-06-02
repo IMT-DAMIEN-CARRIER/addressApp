@@ -52,7 +52,7 @@ public class Town {
         this.name = name;
     }
 
-    @OneToMany(mappedBy = "town")
+    @OneToMany(mappedBy = "id")
     public Set<Address> getAddresses() {
         return addresses;
     }
@@ -61,7 +61,7 @@ public class Town {
         this.addresses = addresses;
     }
 
-    @OneToMany(mappedBy = "residents")
+    @OneToMany(mappedBy = "id")
     public Set<Target> getResidents() {
         return this.residents;
     }

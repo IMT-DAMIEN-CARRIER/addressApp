@@ -2,7 +2,7 @@ create table target (
     uuid UUID PRIMARY KEY ,
     firstname text,
     name text,
-    phoneNumber_uuid uuid REFERENCES phonenumber(uuid)
+    phoneNumber uuid REFERENCES phonenumber(uuid)
 );
 
 create table town(uuid uuid PRIMARY KEY, postCode NUMERIC, name text);
