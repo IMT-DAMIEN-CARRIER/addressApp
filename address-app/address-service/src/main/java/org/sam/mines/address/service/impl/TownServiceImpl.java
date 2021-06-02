@@ -51,10 +51,6 @@ public class TownServiceImpl implements TownService {
             throw new IllegalArgumentException("Adresses are needed");
         }
 
-        if (town.getResidents().isEmpty()) {
-            throw new IllegalArgumentException("Residents are needed");
-        }
-
         return true;
     }
 

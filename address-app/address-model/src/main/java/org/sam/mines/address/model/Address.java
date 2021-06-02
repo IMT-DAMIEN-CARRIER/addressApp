@@ -82,4 +82,73 @@ public class Address {
         return this.number + this.street.hashCode() +
                this.town.hashCode() + this.targets.hashCode();
     }
+
+    public static final class AddressBuilder {
+        private UUID id;
+        private int number;
+        private String street;
+        private Town town;
+        private Set<Target> targets;
+
+        private AddressBuilder () {
+        }
+
+        public static AddressBuilder anAddress() {
+            return new AddressBuilder();
+        }
+
+        public AddressBuilder withId(UUID id) {
+            this.id = id;
+            return this;
+        }
+
+        public AddressBuilder withNumber(int number) {
+            this.number = number;
+            return this;
+        }
+
+        public AddressBuilder withStreet(String street) {
+            this.street = street;
+            return this;
+        }
+
+        public AddressBuilder withTown(Town town) {
+            this.town = town;
+            return this;
+        }
+
+        public AddressBuilder withTargets(Set<Target> targets) {
+            this.targets = targets;
+            return this;
+        }
+
+        public Address build() {
+            Address address = new Address();
+            address.setId(id);
+            address.setNumber(number);
+            address.setStreet(street);
+            address.setTown(town);
+            address.setTargets(targets);
+            return address;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof AddressBuilder) {
+                AddressBuilder addressObject = (AddressBuilder) obj;
+    
+                return this.number == addressObject.number &&
+                       this.street.equals(addressObject.street) &&
+                       this.town.equals(addressObject.town) &&
+                       this.targets.equals(addressObject.targets);
+            }
+            return false;
+        }
+    
+        @Override
+        public int hashCode() {
+            return this.number + this.street.hashCode() +
+                   this.town.hashCode() + this.targets.hashCode();
+        }
+    }
 }

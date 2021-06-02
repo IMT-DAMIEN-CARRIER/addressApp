@@ -144,7 +144,7 @@ public class Town {
                 TownBuilder townObject = (TownBuilder) obj;
     
                 return this.postCode == townObject.postCode &&
-                       this.name == townObject.name && this.addresses.equals(townObject.addresses) &&
+                       this.name.equals(townObject.name) && this.addresses.equals(townObject.addresses) &&
                        this.residents.equals(townObject.residents);
             }
             return false;

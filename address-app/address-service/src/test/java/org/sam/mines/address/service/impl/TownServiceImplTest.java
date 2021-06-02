@@ -5,11 +5,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.sam.mines.address.model.Address;
+import org.sam.mines.address.model.Target;
 import org.sam.mines.address.model.Town;
 import org.sam.mines.address.persistence.TownRepository;
 import org.sam.mines.address.service.TownService;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,6 +31,59 @@ class TownServiceImplTest {
 
     @Test
     void shouldNotSaveWhenNameIsBlank() {
+        Set<Address> addresses = new HashSet<Address>();
+        
+        Town townForAddress = Town.TownBuilder.aTown()
+        .withName("Alès")
+        .withPostCode(30100)
+        .withAddresses(addresses)
+        .withResidents(new HashSet<Target>())
+        .build();
+
+        Town town = Town.TownBuilder.aTown()
+        .withPostCode(30100)
+        .withAddresses(addresses)
+        .withResidents(new HashSet<Target>())
+        .build();
+
+        // GIVEN
+        Address address = Address.AddressBuilder.anAddress()
+        .withId(new UUID(3,1))
+        .withNumber(1)
+        .withStreet("La meuh")
+        .withTown(townForAddress)
+        .withTargets(new HashSet<Target>())
+        .build();
+
+        addresses.add(address);
+
+        // WHEN
+        // THEN
+        assertThrows(IllegalArgumentException.class, () -> townService.save(town));
+    }
+
+    @Test
+    void shouldNotSaveWhenPostCodeIsBlank() {
+        // GIVEN
+        Town town = Town.TownBuilder.aTown().build();
+
+        // WHEN
+        // THEN
+        assertThrows(IllegalArgumentException.class, () -> townService.save(town));
+    }
+
+    @Test
+    void shouldNotSaveWhenAddressesIsEmpty() {
+        // GIVEN
+        Town town = Town.TownBuilder.aTown().build();
+
+        // WHEN
+        // THEN
+        assertThrows(IllegalArgumentException.class, () -> townService.save(town));
+    }
+
+    @Test
+    void shouldNotSaveWhenResidentsIsEmpty() {
         // GIVEN
         Town town = Town.TownBuilder.aTown().build();
 
@@ -67,8 +124,25 @@ class TownServiceImplTest {
 
     @Test
     void shoudBeValid() {
+        Set<Address> addresses = new HashSet<Address>();
+        
+        Town town = Town.TownBuilder.aTown()
+        .withName("Alès")
+        .withPostCode(30100)
+        .withAddresses(addresses)
+        .withResidents(new HashSet<Target>())
+        .build();
+
         // GIVEN
-        Town town = Town.TownBuilder.aTown().build();
+        Address address = Address.AddressBuilder.anAddress()
+        .withId(new UUID(3,1))
+        .withNumber(1)
+        .withStreet("La meuh")
+        .withTown(town)
+        .withTargets(new HashSet<Target>())
+        .build();
+
+        addresses.add(address);
 
         // WHEN
         // THEN
