@@ -13,7 +13,7 @@ import java.util.UUID;
 @Service
 public class TownServiceImpl implements TownService {
 
-    private final TownRepository townRepository;
+    private TownRepository townRepository;
 
     @Autowired
     public TownServiceImpl(TownRepository townRepository) {

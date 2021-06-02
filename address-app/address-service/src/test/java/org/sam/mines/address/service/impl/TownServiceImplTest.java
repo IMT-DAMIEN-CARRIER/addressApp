@@ -64,8 +64,31 @@ class TownServiceImplTest {
 
     @Test
     void shouldNotSaveWhenPostCodeIsBlank() {
+        Set<Address> addresses = new HashSet<Address>();
+        
+        Town townForAddress = Town.TownBuilder.aTown()
+        .withName("Alès")
+        .withPostCode(30100)
+        .withAddresses(addresses)
+        .withResidents(new HashSet<Target>())
+        .build();
+
+        Town town = Town.TownBuilder.aTown()
+        .withName("Alès")
+        .withAddresses(addresses)
+        .withResidents(new HashSet<Target>())
+        .build();
+
         // GIVEN
-        Town town = Town.TownBuilder.aTown().build();
+        Address address = Address.AddressBuilder.anAddress()
+        .withId(new UUID(3,1))
+        .withNumber(1)
+        .withStreet("La meuh")
+        .withTown(townForAddress)
+        .withTargets(new HashSet<Target>())
+        .build();
+
+        addresses.add(address);
 
         // WHEN
         // THEN
@@ -74,37 +97,101 @@ class TownServiceImplTest {
 
     @Test
     void shouldNotSaveWhenAddressesIsEmpty() {
+        Set<Address> addresses = new HashSet<Address>();
+        
+        Town townForAddress = Town.TownBuilder.aTown()
+        .withName("Alès")
+        .withPostCode(30100)
+        .withAddresses(addresses)
+        .withResidents(new HashSet<Target>())
+        .build();
+
+        Town town = Town.TownBuilder.aTown()
+        .withName("Alès")
+        .withPostCode(30100)
+        .withResidents(new HashSet<Target>())
+        .build();
+
         // GIVEN
-        Town town = Town.TownBuilder.aTown().build();
+        Address address = Address.AddressBuilder.anAddress()
+        .withId(new UUID(3,1))
+        .withNumber(1)
+        .withStreet("La meuh")
+        .withTown(townForAddress)
+        .withTargets(new HashSet<Target>())
+        .build();
+
+        addresses.add(address);
 
         // WHEN
         // THEN
-        assertThrows(IllegalArgumentException.class, () -> townService.save(town));
+        assertThrows(NullPointerException.class, () -> townService.save(town));
     }
 
     @Test
     void shouldNotSaveWhenResidentsIsEmpty() {
+        Set<Address> addresses = new HashSet<Address>();
+        
+        Town townForAddress = Town.TownBuilder.aTown()
+        .withName("Alès")
+        .withPostCode(30100)
+        .withAddresses(addresses)
+        .withResidents(new HashSet<Target>())
+        .build();
+
+        Town town = Town.TownBuilder.aTown()
+        .withName("Alès")
+        .withPostCode(30100)
+        .withAddresses(addresses)
+        .build();
+
         // GIVEN
-        Town town = Town.TownBuilder.aTown().build();
+        Address address = Address.AddressBuilder.anAddress()
+        .withId(new UUID(3,1))
+        .withNumber(1)
+        .withStreet("La meuh")
+        .withTown(townForAddress)
+        .withTargets(new HashSet<Target>())
+        .build();
+
+        addresses.add(address);
 
         // WHEN
         // THEN
-        assertThrows(IllegalArgumentException.class, () -> townService.save(town));
+        assertThrows(NullPointerException.class, () -> townService.save(town));
     }
 
     @Test
     void shouldSaveAValidTown() {
-        // GIVEN
-        Town town = Town.TownBuilder.aTown().withName("a town").build();
-
-        // WHEN
+        Set<Address> addresses = new HashSet<Address>();
         UUID generatedId = UUID.randomUUID();
+
+
+        Town town = Town.TownBuilder.aTown()
+        .withId(generatedId)
+        .withName("Alès")
+        .withPostCode(30100)
+        .withAddresses(addresses)
+        .withResidents(new HashSet<Target>())
+        .build();
+
+        // GIVEN
+
+        Address address = Address.AddressBuilder.anAddress()
+        .withId(generatedId)
+        .withNumber(1)
+        .withStreet("La meuh")
+        .withTown(town)
+        .withTargets(new HashSet<Target>())
+        .build();
+
+        addresses.add(address);
+
         when(townRepository.save(any(Town.class)))
-                .thenReturn(Town.TownBuilder.aTown().withId(generatedId).build());
+                .thenReturn(town);
 
         // THEN
-        Town persisted = townService.save(town);
-        assertEquals(persisted.getId(), generatedId);
+        assertEquals(generatedId, townService.save(town).getId());
     }
 
     @Test
