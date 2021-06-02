@@ -110,20 +110,23 @@ components:
           type: string
         postCode:
           type: string
-#    Target:
-#      required:
-#        - firstname
-#        - name
-#        - phoneNumber
-#        - addresses
-#      properties:
-#        id:
-#          type: string
-#        firstname:
-#          type: string
-#        name:
-#          type: string
-#        phoneNumber:
-#          type: object
-#        addresses:
-#          type: array
+    Target:
+      required:
+        - firstname
+        - name
+        - phoneNumber
+        - addresses
+      properties:
+        id:
+          type: string
+        firstname:
+          type: string
+        name:
+          type: string
+        phoneNumber:
+          type: object
+        addresses:
+          type: array
+          additionalProperties: false
+          items:
+            type: string
