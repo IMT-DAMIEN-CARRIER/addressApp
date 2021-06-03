@@ -226,17 +226,21 @@ components:
             type: string
     Address:
       required:
+        - id
         - number
         - street
         - town
         - targets
       properties:
+        id:
+          type: string
         number:
           type: integer
         street:
           type: string
         town:
           type: object
+          $ref: '#/components/schemas/Town'
         targets:
           type: array
           additionalProperties: false

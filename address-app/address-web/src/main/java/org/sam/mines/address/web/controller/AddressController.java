@@ -2,6 +2,7 @@ package org.sam.mines.address.web.controller;
 
 import org.sam.mines.address.api.controller.AddressApi;
 import org.sam.mines.address.api.model.Address;
+import org.sam.mines.address.api.model.Town;
 import org.sam.mines.address.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -72,8 +73,7 @@ public class AddressController implements AddressApi {
                 .withId(address.getId() == null ? null : UUID.fromString(address.getId()))
                 .withNumber(address.getNumber())
                 .withStreet(address.getStreet())
-                .withTown(address.getTown())
-                .withTargets(address.getTargets())
+                .withTown(this.map(address.getTown()))
                 .build();
     }
 
@@ -82,7 +82,27 @@ public class AddressController implements AddressApi {
         addressApi.setId(address.getId().toString());
         addressApi.setNumber(address.getNumber());
         addressApi.setStreet(address.getStreet());
-        addressApi.setTown(address.getTown());
+        addressApi.setTown(this.map(address.getTown()));
         addressApi.setTargets(Arrays.asList(address.getTargets().toArray()));
+
+        return addressApi;
+    }
+
+    private org.sam.mines.address.model.Town map(Town town) {
+        return org.sam.mines.address.model.Town.TownBuilder.aTown()
+                .withId(town.getId() == null ? null : UUID.fromString(town.getId()))
+                .withName(town.getName())
+                .withPostCode(Integer.parseInt(town.getPostCode()))
+                .build();
+    }
+
+    private Town map(org.sam.mines.address.model.Town town) {
+
+        Town apiTown = new Town();
+        apiTown.setId(town.getId().toString());
+        apiTown.setName(town.getName());
+        apiTown.setPostCode(String.valueOf(town.getPostCode()));
+
+        return apiTown;
     }
 }
