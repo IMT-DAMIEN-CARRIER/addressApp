@@ -28,24 +28,27 @@ public class TownController implements TownApi {
     }
 
     @Override
-    public ResponseEntity<Town> create(Town town) {
+    public ResponseEntity<Town> createTown(Town town) {
         org.sam.mines.address.model.Town saved = townService.save(this.map(town));
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path(
-                "/{id}").buildAndExpand(saved.getId()).toUri();
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(saved.getId())
+                .toUri();
 
         return ResponseEntity.created(uri).body(map(saved));
     }
 
     @Override
-    public ResponseEntity<String> delete(String id) {
+    public ResponseEntity<String> deleteTown(String id) {
         townService.delete(UUID.fromString(id));
 
         return ResponseEntity.ok(id);
     }
 
     @Override
-    public ResponseEntity<Town> get(String id) {
+    public ResponseEntity<Town> getTownId(String id) {
         return townService.get(UUID.fromString(id))
                 .map(this::map)
                 .map(ResponseEntity::ok)
@@ -53,12 +56,12 @@ public class TownController implements TownApi {
     }
 
     @Override
-    public ResponseEntity<List<Town>> list() {
+    public ResponseEntity<List<Town>> listTown() {
         return ResponseEntity.ok(townService.getAll().stream().map(this::map).collect(Collectors.toList()));
     }
 
     @Override
-    public ResponseEntity<Town> update(Town town) {
+    public ResponseEntity<Town> updateTown(Town town) {
         org.sam.mines.address.model.Town modelTown = this.map(town);
 
         if (townService.get(modelTown.getId()).isPresent()){

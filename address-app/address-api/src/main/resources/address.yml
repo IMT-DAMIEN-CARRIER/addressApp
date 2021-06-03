@@ -10,21 +10,21 @@ paths:
   /town:
     get:
       summary: List all towns
-      operationId: list
+      operationId: list_town
       tags:
         - town
       responses:
         '200':
           description: An array of towns
           content:
-            application/json:
+            application/json:TownController.java
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/Town'
     post:
       summary: Create a town
-      operationId: create
+      operationId: create_town
       tags:
         - town
       requestBody:
@@ -42,7 +42,7 @@ paths:
                 $ref: '#/components/schemas/Town'
     put:
       summary: Update a town
-      operationId: update
+      operationId: update_town
       tags:
         - town
       requestBody:
@@ -61,7 +61,7 @@ paths:
   /town/{id}:
     get:
       summary: Info for a specific town
-      operationId: get
+      operationId: get_town_id
       tags:
         - town
       parameters:
@@ -82,7 +82,7 @@ paths:
       tags:
         - town
       summary: Delete a town.
-      operationId: delete
+      operationId: delete_town
       parameters:
         - in: path
           name: id
@@ -97,6 +97,100 @@ paths:
               schema:
                 type: string
                 description: ID of the deleted entity.
+
+  /address:
+    get:
+      summary: List all address
+      operationId: list_address
+      tags:
+        - address
+      responses:
+        '200':
+          description: An array of address
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Address'
+    post:
+      summary: Create an address
+      operationId: create_address
+      tags:
+        - address
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Address'
+      responses:
+        '201':
+          description: Null response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'
+    put:
+      summary: Update an address
+      operationId: update_address
+      tags:
+        - address
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Address'
+      responses:
+        '200':
+          description: Null response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'
+  /address/{id}:
+    get:
+      summary: Info for a specific address
+      operationId: get_address_id
+      tags:
+        - address
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          description: The id of the address to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Address"
+    delete:
+      tags:
+        - address
+      summary: Delete a address.
+      operationId: delete_address
+      parameters:
+        -
+          in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      responses:
+        '204':
+          description: Address has been deleted.
+          content:
+            application/json:
+              schema:
+                type: string
+                description: ID of the deleted entity.
+
 components:
   schemas:
     Town:
