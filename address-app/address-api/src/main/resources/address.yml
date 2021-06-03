@@ -17,7 +17,7 @@ paths:
         '200':
           description: An array of towns
           content:
-            application/json:TownController.java
+            application/json:
               schema:
                 type: array
                 items:
