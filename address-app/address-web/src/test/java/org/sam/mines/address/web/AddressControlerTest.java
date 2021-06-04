@@ -75,8 +75,7 @@ public class AddressControlerTest {
                 .andReturn();
     }
 
-    private Address generateAddress()
-    {
+    private Address generateAddress() {
         UUID uuid = UUID.randomUUID();
         UUID uuidTown = UUID.randomUUID();
         UUID uuidTarget = UUID.randomUUID();
