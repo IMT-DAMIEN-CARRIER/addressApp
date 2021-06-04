@@ -2,11 +2,8 @@ package org.sam.mines.address.web;
 
 import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import org.springframework.http.MediaType;
 import org.junit.jupiter.api.Test;
 import org.sam.mines.address.model.PhoneNumber;
@@ -23,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
@@ -60,21 +58,20 @@ public class AddressControlerTest {
     @Test
     void shouldSaveAnAdress() throws Exception
     {
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-
         // Given
         Address address = this.generateAddress();
-        String json = ow.writeValueAsString(address);
+        String json = this.addressToJSON(address);
 
         // When
-        when(addressService.save(address)).thenReturn(address);
+        when(addressService.save(any(address.getClass()))).thenReturn(address);
 
         // Then
         this.mockMvc.perform(MockMvcRequestBuilders.post("/address")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json)
                 .characterEncoding("utf-8"))
-                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(address.getId().toString()))
                 .andReturn();
     }
 
@@ -83,7 +80,6 @@ public class AddressControlerTest {
         UUID uuid = UUID.randomUUID();
         UUID uuidTown = UUID.randomUUID();
         UUID uuidTarget = UUID.randomUUID();
-        UUID uuidAddress = UUID.randomUUID();
 
         PhoneNumber phoneNumber = new PhoneNumber();
         phoneNumber.setPhoneNumber("0677777777");
@@ -115,5 +111,11 @@ public class AddressControlerTest {
         addresses.add(address);
 
         return address;
+    }
+
+    private String addressToJSON(Address address) {
+        return String.format("{\"id\":\"%s\",\"number\":%d,\"street\":\"%s\",\"town\":{\"id\":\"%s\",\"name\":\"%s\",\"postCode\":\"%s\"},\"targets\":[]}",
+               address.getId().toString(), address.getNumber(), address.getStreet(),
+               address.getTown().getId().toString(), address.getTown().getName(), Integer.toString(address.getTown().getPostCode()));
     }
 }
