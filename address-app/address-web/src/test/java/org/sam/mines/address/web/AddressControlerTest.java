@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.springframework.http.MediaType;
 import org.junit.jupiter.api.Test;
 import org.sam.mines.address.model.PhoneNumber;
@@ -41,6 +43,43 @@ public class AddressControlerTest {
     @Test
     void shouldGetAnAddress() throws Exception {
         // Given
+        Address address = this.generateAddress();
+
+        // When
+        when(addressService.get(eq(address.getId()))).thenReturn(Optional.of(
+            address
+        ));
+
+        //Then
+        mockMvc.perform(MockMvcRequestBuilders.get("/address/%s".formatted(address.getId().toString()))
+            .accept(MediaType.ALL))
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andExpect(MockMvcResultMatchers.jsonPath("$.street").value("Osef"));
+    }
+
+    @Test
+    void shouldSaveAnAdress() throws Exception
+    {
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+
+        // Given
+        Address address = this.generateAddress();
+        String json = ow.writeValueAsString(address);
+
+        // When
+        when(addressService.save(address)).thenReturn(address);
+
+        // Then
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/address")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json)
+                .characterEncoding("utf-8"))
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+                .andReturn();
+    }
+
+    private Address generateAddress()
+    {
         UUID uuid = UUID.randomUUID();
         UUID uuidTown = UUID.randomUUID();
         UUID uuidTarget = UUID.randomUUID();
@@ -51,8 +90,8 @@ public class AddressControlerTest {
 
         HashSet<Address> addresses = new HashSet<Address>();
         Address address = Address.AddressBuilder.anAddress()
-                        .withId(uuid)
-                        .withStreet("Osef").build();
+                .withId(uuid)
+                .withStreet("Osef").build();
 
 
         HashSet<Target> residents = new HashSet<Target>();
@@ -65,26 +104,16 @@ public class AddressControlerTest {
         residents.add(target);
 
         Town town = Town.TownBuilder.aTown()
-            .withId(uuidTown)
-            .withName("Alès")
-            .withPostCode(30100)
-            .withResidents(residents)
-            .withAddresses(addresses).build();
+                .withId(uuidTown)
+                .withName("Alès")
+                .withPostCode(30100)
+                .withResidents(residents)
+                .withAddresses(new HashSet<Address>()).build();
 
         address.setTown(town);
         address.setTargets(new HashSet<Target>());
         addresses.add(address);
 
-        // When
-        when(addressService.get(eq(uuid))).thenReturn(Optional.of(
-            address
-        ));
-
-        //Then
-        mockMvc.perform(MockMvcRequestBuilders.get("/address/%s".formatted(uuid.toString()))
-            .accept(MediaType.ALL))
-            .andExpect(MockMvcResultMatchers.status().isOk())
-            .andExpect(MockMvcResultMatchers.jsonPath("$.street").value("Osef"));
+        return address;
     }
-    
 }
